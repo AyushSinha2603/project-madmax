@@ -84,3 +84,20 @@ training need a GPU — planned on Google Colab free T4.
 - `test_graph.py` asserts these structural properties (shape, asymmetry, unit
   diagonal, value range, sparsity, and that `symmetrize` is symmetric). This also
   covers the adjacency checks deferred from Step 3. **All property tests pass.**
+
+## Step 6 — Windowing (`src/data/windowing.py` + `tests/test_windowing.py`)
+
+- Sliding windows of 12 steps in (1h history) -> 12 steps out (1h ahead), built
+  **within each split** so no window straddles a train/val/test boundary.
+- Shape convention (batch, time, nodes, features), asserted at construction:
+  x = (num, 12, 207, F), y = (num, 12, 207), y_mask, y_time (ns per target step).
+- Features F=2: normalized speed + time-of-day in [0,1). Day-of-week available via
+  config (off by default). Time-of-day matters a lot for traffic.
+- Saved compressed to `data/processed/{train,val,test}.npz` + `metadata.json`
+  (scaler mean/std, sensor order, feature names, horizon->minute map). npz are
+  git-ignored. Sizes: train 29 MB, val 4 MB, test 8 MB.
+- Sample counts = split_len - 23: train 23967, val 3404, test 6832. Valid targets
+  92.9% / 93.0% / 87.9%.
+- Tests pin the off-by-one alignment (target = steps immediately after input),
+  shapes, and the time-of-day feature. A real-data check confirms target time
+  ranges are strictly ordered and non-overlapping (no leakage). **18/18 tests pass.**
