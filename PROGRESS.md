@@ -56,3 +56,15 @@ training need a GPU — planned on Google Colab free T4.
   and >= 0 (0-21255 m), all 207 sensor ids referenced. This is the graph's input.
 - Adjacency shape/asymmetry deferred to Step 5 (checked on our own builder, not
   the oracle, per CLAUDE.md 5.2).
+
+## Step 4 — Masked metrics (`src/metrics.py` + `tests/test_metrics.py`)
+
+- `masked_mae`, `masked_rmse`, `masked_mape` (+ `all_metrics`). Mask derived from
+  `target != 0` (missing) unless an explicit mask is passed. MAE/RMSE in mph,
+  MAPE in percent. Return NaN when no valid entries.
+- These are the ruler every model is judged by, so correctness is nailed with a
+  **hand-computed 2x3 test** (targets in mph, two masked zeros):
+  MAE=2.75, RMSE=sqrt(8.25)=2.8723, MAPE=12.5%.
+- Key guard test: one masked cell carries a 100 mph error; masked MAE (2.75) must
+  differ from the naive unmasked mean (~19.33). Proves zeros are truly excluded.
+- Added root `conftest.py` so pytest can import `src`. **7/7 tests pass.**
