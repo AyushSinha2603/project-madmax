@@ -68,3 +68,19 @@ training need a GPU — planned on Google Colab free T4.
 - Key guard test: one masked cell carries a 100 mph error; masked MAE (2.75) must
   differ from the naive unmasked mean (~19.33). Proves zeros are truly excluded.
 - Added root `conftest.py` so pytest can import `src`. **7/7 tests pass.**
+
+## Step 5 — Road-graph adjacency (`src/data/build_graph.py` + `tests/test_graph.py`)
+
+- Implements DCRNN's thresholded Gaussian kernel over road-network distances:
+  `A[i,j] = exp(-(dist/sigma)^2)` if `>= k` else 0. `sigma` is the computed std of
+  observed distances (not chosen); `k = 0.1` sparsifies.
+- Row/column order follows `graph_sensor_ids.txt`, so the matrix aligns with the
+  speed columns (same canonical order verified in Step 3).
+- Result is **directed and asymmetric** (road distance A->B != B->A); not
+  symmetrized. A `symmetrize()` helper is provided for models that require it,
+  to be applied explicitly and logged (CLAUDE.md 5.1).
+- Built matrix: shape (207, 207), asymmetric, unit diagonal, weights in [0, 1],
+  density 4.02% nonzero after the threshold.
+- `test_graph.py` asserts these structural properties (shape, asymmetry, unit
+  diagonal, value range, sparsity, and that `symmetrize` is symmetric). This also
+  covers the adjacency checks deferred from Step 3. **All property tests pass.**

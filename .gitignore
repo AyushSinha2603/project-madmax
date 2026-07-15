@@ -13,8 +13,9 @@ venv/
 data/raw/
 data/processed/
 
-# --- Test oracle: large binary, downloadable from DCRNN repo ---
+# --- Test oracle + local-only reference check: kept off GitHub ---
 tests/fixtures/adj_mx.pkl
+tests/test_graph_reference.py
 
 # --- Run outputs / large artifacts ---
 results/run_*.json
