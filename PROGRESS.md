@@ -43,3 +43,16 @@ training need a GPU — planned on Google Colab free T4.
 - **Train-only z-score**: mean=54.41 mph, std=19.49 mph, computed on train alone.
   Sanity check: normalized train split has mean -0.0000, std 1.0000. No leakage.
 - Code carries no inline comments; docstrings retained for units/shapes.
+
+## Step 3 — Sanity gate (`scripts/check_data.py`)
+
+- Fail-loud script turning the CLAUDE.md 6.1 table into asserts; exits non-zero on
+  any failure. Read-only. **8/8 checks pass.**
+- Verified: speed shape (34272, 207); uniform 5-min resolution; date range
+  2012-03-01 -> 2012-06-27; missing rate 8.11%; non-zero speeds [0.3, 70.0] mph.
+- **Column order == graph_sensor_ids.txt exactly (207/207)** — the silent killer
+  is confirmed dead before any model is built.
+- Distances CSV checked: 295374 road-pairs, `from,to,cost` columns, costs finite
+  and >= 0 (0-21255 m), all 207 sensor ids referenced. This is the graph's input.
+- Adjacency shape/asymmetry deferred to Step 5 (checked on our own builder, not
+  the oracle, per CLAUDE.md 5.2).
