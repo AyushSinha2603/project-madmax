@@ -1,0 +1,29 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Virtual env ---
+venv/
+.venv/
+
+# --- Data: large, downloadable, not code (see README for how to fetch) ---
+data/raw/
+data/processed/
+
+# --- Test oracle: large binary, downloadable from DCRNN repo ---
+tests/fixtures/adj_mx.pkl
+
+# --- Run outputs / large artifacts ---
+results/run_*.json
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# NOTE: CLAUDE.md, README.md, config.yaml, requirements.txt ARE tracked on purpose.
+CLAUDE.md

@@ -1,0 +1,59 @@
+# Central config. No magic numbers in code (CLAUDE.md §10).
+# Every value the pipeline/models depend on lives here.
+
+seed: 42
+
+paths:
+  speeds_h5:      data/raw/metr-la.h5
+  distances_csv:  data/raw/distances_la_2012.csv
+  sensor_ids_txt: data/raw/graph_sensor_ids.txt
+  processed_dir:  data/processed
+  results_dir:    results
+  adj_oracle:     tests/fixtures/adj_mx.pkl   # test only — never imported by src/
+
+data:
+  n_sensors: 207
+  n_timesteps: 34272
+  freq_minutes: 5           # 5-minute resolution
+  missing_value: 0.0        # zeros are MISSING, not real speed (CLAUDE.md §2.1)
+  # Chronological split (CLAUDE.md §2.2). Never shuffle before splitting.
+  split:
+    train: 0.7
+    val:   0.1
+    test:  0.2
+
+windowing:
+  input_steps:  12          # 1 hour of history
+  output_steps: 12          # 1 hour ahead
+  # Reported horizons in steps (5-min each): 3->15min, 6->30min, 12->60min
+  report_horizons: [3, 6, 12]
+  add_time_of_day: true
+  add_day_of_week: false    # optional extra node feature
+
+graph:
+  k: 0.1                    # sparsification threshold (CLAUDE.md §5.1)
+  # sigma = std of observed distances -> COMPUTED, not set here.
+  symmetrize: false         # keep directed/asymmetric; if a model needs (A+A.T)/2, log it
+
+# Metrics reported at the horizons above (CLAUDE.md §8): masked MAE / RMSE / MAPE
+
+train:
+  # Used from Week 2 onward (LSTM, STGNN). Ignored by trivial baselines.
+  batch_size: 64
+  epochs: 100
+  patience: 15              # early stopping
+  lr: 0.001
+  weight_decay: 0.0
+  grad_clip: 5.0
+  device: auto              # auto -> cuda if available else cpu
+
+model:
+  lstm:
+    hidden_dim: 64
+    num_layers: 2
+    dropout: 0.0
+  stgnn:
+    hidden_dim: 64
+    n_diffusion_steps: 2    # diffusion conv K
+    num_layers: 2
+    dropout: 0.0
