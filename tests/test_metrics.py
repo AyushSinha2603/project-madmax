@@ -1,29 +1,3 @@
-"""Hand-computed tests for the masked metrics (CLAUDE.md 10).
-
-These functions are the ruler every model is judged by, so correctness is proven
-by arithmetic on a tiny example that includes missing (0.0) entries.
-
-Fixture (targets in mph; 0.0 == missing at (0,1) and (1,2)):
-
-    target = [[10,  0, 20],
-              [30, 40,  0]]
-    preds  = [[12,  5, 18],
-              [33, 36, 100]]
-
-Valid cells and abs errors:
-    (0,0) 10 -> 12 : 2
-    (0,2) 20 -> 18 : 2
-    (1,0) 30 -> 33 : 3
-    (1,1) 40 -> 36 : 4
-
-    MAE  = (2+2+3+4)/4                 = 2.75
-    RMSE = sqrt((4+4+9+16)/4)          = sqrt(8.25) = 2.8722813...
-    MAPE = mean(2/10,2/20,3/30,4/40)*100 = 12.5
-
-The masked-out cells carry a 5 mph and a 100 mph error; if masking is broken
-these values wreck the results, so the test fails loudly.
-"""
-
 import math
 
 import numpy as np

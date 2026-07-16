@@ -1,0 +1,13 @@
+model,split,horizon_min,mae,rmse,mape
+CopyLast,test,15,3.5137,6.4164,8.6388
+CopyLast,test,30,4.2346,8.0485,10.9055
+CopyLast,test,60,5.4343,10.3383,14.6179
+HistoricalAverage,test,15,4.1928,7.8617,13.0614
+HistoricalAverage,test,30,4.1929,7.8618,13.0617
+HistoricalAverage,test,60,4.1934,7.8620,13.0616
+CopyLast,val,15,3.2306,6.0134,7.7853
+CopyLast,val,30,3.8417,7.5125,9.7731
+CopyLast,val,60,4.8276,9.5923,12.9396
+HistoricalAverage,val,15,4.3217,8.0821,12.6223
+HistoricalAverage,val,30,4.3171,8.0736,12.5839
+HistoricalAverage,val,60,4.3061,8.0531,12.4997

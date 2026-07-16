@@ -1,14 +1,3 @@
-"""Masked evaluation metrics for METR-LA (CLAUDE.md 2.1, 8).
-
-Every metric ignores missing readings, which METR-LA stores as 0.0. The mask is
-derived from the target (target != null_val) so a real 0 mph jam is never
-confused with missing data; an explicit mask may be passed to override.
-
-Inputs are speeds in mph (real space, after inverse_transform). Predictions and
-targets share the same shape; metrics reduce over all masked elements.
-Returns: MAE and RMSE in mph, MAPE in percent.
-"""
-
 from __future__ import annotations
 
 import numpy as np

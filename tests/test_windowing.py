@@ -1,10 +1,3 @@
-"""Tests for the 12-in/12-out windowing (CLAUDE.md 6.2).
-
-Pins the off-by-one alignment (target = the steps immediately after the input),
-the shape convention, and the time-of-day feature, on tiny synthetic arrays so
-the check is fast and file-independent.
-"""
-
 import numpy as np
 import pandas as pd
 

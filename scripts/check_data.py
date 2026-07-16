@@ -1,17 +1,3 @@
-"""Fail-loud sanity gate for the raw METR-LA data (CLAUDE.md 6.1).
-
-Run before writing any model. Asserts the speed matrix shape, 5-minute
-resolution, date range, missing rate, non-zero speed range, and the exact
-column-order match against graph_sensor_ids.txt (the silent killer). Also
-sanity-checks the road-distance CSV that becomes the graph.
-
-Adjacency shape/asymmetry are verified where the graph is built
-(build_graph.py / test_graph.py, Step 5), against our own builder rather than
-the oracle, so they are intentionally not re-checked here.
-
-Exits non-zero if any check fails. Read-only: writes nothing.
-"""
-
 from __future__ import annotations
 
 import pathlib

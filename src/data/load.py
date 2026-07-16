@@ -1,12 +1,3 @@
-"""Load METR-LA speeds, mask missing readings, split chronologically, z-score.
-
-Enforces four correctness rules (CLAUDE.md 2.1-2.3, 6.1): mask zeros as missing,
-split in time order, z-score from train stats only, align columns to the canonical
-sensor order. See PROGRESS.md for the reasoning behind each.
-
-Units: speeds in mph. Shapes annotated as (T, N): T timesteps, N sensors.
-Reads the .h5 directly via PyTables (the local pandas 3.0 read_hdf regression).
-"""
 
 from __future__ import annotations
 

@@ -1,11 +1,3 @@
-"""Property tests for the road-network adjacency (CLAUDE.md 5.1, 6.1).
-
-Asserts structural facts about our own builder: correct shape, directed/
-asymmetric (road distance A->B != B->A), unit diagonal, weights in [0, 1], and
-sparsity after the k threshold. These are the deferred Step-3 adjacency checks,
-verified on the matrix we build rather than on any external file.
-"""
-
 import numpy as np
 import pytest
 import yaml

@@ -1,17 +1,3 @@
-"""Build the road-network adjacency for METR-LA (CLAUDE.md 5.1).
-
-DCRNN's thresholded Gaussian kernel over road-network distances:
-
-    A[i, j] = exp( -(dist(i, j) / sigma)^2 )   if that value >= k
-    A[i, j] = 0                                 otherwise
-
-sigma is the standard deviation of the observed distances (computed, not chosen).
-k = 0.1 sparsifies. The result is directed and asymmetric because road distance
-A->B differs from B->A; it is NOT symmetrized here. Row/column order follows
-graph_sensor_ids.txt so the matrix aligns with the speed columns.
-
-Distances are in metres; the adjacency is a unitless (207, 207) weight matrix.
-"""
 
 from __future__ import annotations
 

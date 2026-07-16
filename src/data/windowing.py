@@ -1,20 +1,3 @@
-"""Slice METR-LA into 12-in / 12-out supervised windows (CLAUDE.md 6.2).
-
-Each sample reads 12 steps (1 hour) of history and predicts the next 12 steps
-(1 hour ahead). Windows are built WITHIN each chronological split, so no window
-straddles a train/val/test boundary (which would leak the future).
-
-Shape convention (batch, time, nodes, features):
-    x      : (num, in_steps, N, F) float32   input features (normalized)
-    y      : (num, out_steps, N)   float32   normalized target speed
-    y_mask : (num, out_steps, N)   bool      True == genuine target reading
-    y_time : (num, out_steps)      int64     ns timestamp of each target step
-
-Features F: [normalized speed, time-of-day in [0,1)] and optionally day-of-week
-in [0,1). Time-of-day matters a lot for traffic and is standard. Speeds are mph;
-metrics run after inverse_transform.
-"""
-
 from __future__ import annotations
 
 import json

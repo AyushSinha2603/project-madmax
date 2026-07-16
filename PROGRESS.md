@@ -101,3 +101,33 @@ training need a GPU — planned on Google Colab free T4.
 - Tests pin the off-by-one alignment (target = steps immediately after input),
   shapes, and the time-of-day feature. A real-data check confirms target time
   ranges are strictly ordered and non-overlapping (no leakage). **18/18 tests pass.**
+
+## Step 7 — Trivial baselines + first metrics (`src/models/`, `src/evaluate.py`)
+
+- **CopyLastValue**: repeats the last *observed* (non-missing) input speed across
+  all horizons. Skipping missing slots matters: naively copying the last slot
+  (which is 0 ~8% of the time) inflated 15-min MAE from 3.51 to 4.02.
+- **HistoricalAverage**: per-(day-of-week, 5-min-slot, sensor) mean speed over the
+  training split only, masked. Horizon-independent by construction.
+- `evaluate.py`: per-horizon masked MAE/RMSE/MAPE, `results/metrics.csv` upsert,
+  and a `run_<timestamp>.json` log (config, git commit, seed, metrics) per §10.
+- **Baseline results on TEST (masked, mph):**
+
+  | model | 15m MAE | 30m MAE | 60m MAE |
+  |---|---|---|---|
+  | CopyLast | 3.51 | 4.23 | 5.43 |
+  | HistoricalAverage | 4.19 | 4.19 | 4.19 |
+
+  Textbook pattern: persistence wins short horizons, HistoricalAverage overtakes
+  by ~30-60 min. Our HA (4.19 / 7.86 RMSE / 13.06% MAPE) matches DCRNN's published
+  HA (4.16 / 7.80 / 13.0%) almost exactly — a strong pipeline sanity check.
+- These are the reference floor the LSTM and STGNN must beat.
+
+---
+
+### Week 1 complete
+
+Data loaded, masked, split chronologically, normalized (train-only); sanity gate
+green; graph built and property-tested; masked metrics unit-tested; windows built;
+both trivial baselines evaluated and in `results/metrics.csv`. **18/18 tests pass.**
+Next: Week 2 — LSTM baseline (first GPU step, on Colab).
