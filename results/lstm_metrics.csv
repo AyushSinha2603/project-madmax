@@ -1,0 +1,4 @@
+model,horizon,mae,rmse,mape
+LSTM,15min,3.041,5.995,8.176
+LSTM,30min,3.676,7.42,10.526
+LSTM,60min,4.612,9.198,14.329

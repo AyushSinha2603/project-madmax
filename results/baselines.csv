@@ -1,0 +1,7 @@
+model,horizon,mae,rmse,mape
+CopyLast,15min,4.017,8.694,9.395
+CopyLast,30min,5.094,11.132,12.213
+CopyLast,60min,6.795,14.209,16.714
+HistAvg,15min,4.187,7.853,13.035
+HistAvg,30min,4.187,7.853,13.035
+HistAvg,60min,4.188,7.853,13.035
